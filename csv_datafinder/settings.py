@@ -26,7 +26,9 @@ SECRET_KEY = 'cf44c6c464e7986993e99c93d52b9fdfcb349a8b743d3458'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'https://csvdatafinder.herokuapp.com/',
+]
 
 
 # Application definition
