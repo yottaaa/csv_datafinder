@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 import pandas as pd
 import os
 import secrets
-import time
+import json
 from .models import CSVData
 
 # Create your views here.
@@ -20,12 +20,12 @@ def index(request):
                 df = pd.read_csv(request.FILES.get('csv_file'))
 
                 dataname = secrets.token_hex(4) + "_" + request.FILES.get('csv_file').name 
-                datafile = request.FILES.get('csv_file') # file
+                datajson = df.to_json()
                 dataitems = df.shape[0] # row count
 
                 data = CSVData(
                     data_name=dataname,
-                    data_file=datafile,
+                    data_json=datajson,
                     data_items=dataitems
                 )
                 data.save()
@@ -42,7 +42,8 @@ def index(request):
 def dataView(request, pk):
     context = {}
     data = CSVData.objects.get(pk=pk)
-    df = pd.read_csv(data.data_file)
+    df = pd.read_json(data.data_json)
+
     df = df.applymap(str)
     # if searching data
     search_key = ''
