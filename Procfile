@@ -1,1 +1,1 @@
-web: gunicorn csv_datafinder.wsgi.py
+web: gunicorn csv_datafinder.wsgi
