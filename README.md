@@ -1,2 +1,3 @@
-# csvdatafinder
-# csv_datafinder
+# CSVDataFinder
+
+CSV tool for data filtering
