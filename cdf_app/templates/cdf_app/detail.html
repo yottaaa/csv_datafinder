@@ -2,6 +2,7 @@
 {% load cdf_extras %}
 {% block content %}
 <a href="{% url 'index' %}" class="btn btn-sm btn-primary mb-4">Back</a>
+<h1 class="mb-4">{{ tb_name }}</h1>
 <div class="row mb-4">
 	<div class="col-auto">
       	<select class="form-select form-select-sm" name="data_column" form="search_form">
@@ -45,5 +46,26 @@
             {% endfor %}
         </tbody>
     </table>
+</div>
+<div>
+    <span>
+        {% if tb_rows.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            |
+            <a href="?page={{ tb_rows.previous_page_number }}">previous</a>
+            |
+        {% endif %}
+
+        <span class="current">
+            Page {{ tb_rows.number }} of {{ tb_rows.paginator.num_pages }}.
+        </span>
+
+        {% if tb_rows.has_next %}
+            |
+            <a href="?page={{ tb_rows.next_page_number }}">next</a>
+            |
+            <a href="?page={{ tb_rows.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
 </div>
 {% endblock content %}

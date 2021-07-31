@@ -6,6 +6,8 @@ import secrets
 import json
 from .models import CSVData
 
+from django.core.paginator import Paginator
+
 # landing page
 def index(request):
     context = {}
@@ -35,8 +37,12 @@ def index(request):
             context['remarks'] = "error"
 
     csv_files = CSVData.objects.all()
+    paginator = Paginator(csv_files, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     if len(csv_files) != 0:
-        context['files'] = csv_files
+        context['files'] = page_obj
     return render(request, 'cdf_app/index.html', context)
 
 # detail view
@@ -70,11 +76,15 @@ def dataView(request, pk):
             items.append(value)
         tb_rows.append(items)
 
-    print(searchparam)
+
+    paginator = Paginator(tb_rows, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     context = {
+        'tb_name': data.data_name,
         'tb_header': df.columns, 
-        'tb_rows': tb_rows, 
+        'tb_rows': page_obj, 
         'tb_shape': df.shape,
         'searchparam': searchparam,
         'search_key': search_key,
